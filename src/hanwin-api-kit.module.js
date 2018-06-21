@@ -8,14 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var hanwin_api_service_1 = require("./services/hanwin-api.service");
-var hanwin_base_request_api_1 = require("./apis/hanwin-base-request.api");
 var HanwinApiKitModule = (function () {
     function HanwinApiKitModule() {
     }
     HanwinApiKitModule = __decorate([
         core_1.NgModule({
-            declarations: [hanwin_base_request_api_1.HanwinBaseRequest],
-            exports: [hanwin_base_request_api_1.HanwinBaseRequest],
+            declarations: [],
+            exports: [],
             providers: [hanwin_api_service_1.HanwinApiService]
         })
     ], HanwinApiKitModule);

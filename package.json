@@ -1,6 +1,6 @@
 {
   "name": "hanwin-apikit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "restful toolkits for hanwintech",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,10 @@
   },
   "author": "Steven Peng",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/invader41/hanwin-apikit.git"
+  },
   "dependencies": {
     "@angular/common": "^5.2.10",
     "@angular/core": "^5.2.10",
