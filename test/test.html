@@ -1,0 +1,20 @@
+<html>
+
+<body>
+
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <div id="app">
+        <h1>Hanwin Api Kit</h1>
+        <input type="text" v-model="username" placeholder="用户名">
+        <input type="password" v-model="password" placeholder="密码">
+        <button v-on:click="doLogin">登录</button>
+        <button v-on:click="getUserInfo">获取用户信息</button>
+    </div>
+    <script type="module" src="test.js"></script>
+    <script type="module" src="md5.js"></script>
+    <script type="module" src="../index.js"></script>
+</body>
+
+</html>
