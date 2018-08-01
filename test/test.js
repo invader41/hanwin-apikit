@@ -38,7 +38,7 @@ let newGuid = function () {
     });
 }
 
-let apiClient = new HanwinApiClient('http://service.hanwintech.com:9002');
+let apiClient = new HanwinApiClient('');
 
 apiClient.onUnauthorized = response => {
     console.log(response);
