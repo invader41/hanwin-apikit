@@ -9,7 +9,7 @@
     "tsc": "tsc"
   },
   "author": "Steven Peng",
-  "license": "MIT",
+  "license": "GPL",
   "repository": {
     "type": "git",
     "url": "git://github.com/invader41/hanwin-apikit.git"

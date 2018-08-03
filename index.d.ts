@@ -6,7 +6,14 @@ export declare class HanwinApiClient {
 }
 
 export declare class HanwinOAuthApiClient extends HanwinApiClient {
-  requestToken(url: string, credentials: any);
+  requestToken();
+  constructor(IHanwinOAuthApiClientConfig);
+}
+
+export declare interface IHanwinOAuthApiClientConfig
+  extends IHanwinApiClientConfig {
+  tokenUrl: string;
+  credentialsProvider: () => any;
 }
 
 export declare interface IHanwinApiClientConfig {

@@ -62,7 +62,7 @@ let apiClient = new HanwinApiClient({
 });
 
 let oauthApiClient = new HanwinOAuthApiClient({
-    baseUrl: 'http://service.hanwintech.com:9002',
+    baseUrl: '',
     tokenUrl: '/api/Token',
     credentialsProvider: () => {
         return {
