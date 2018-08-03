@@ -1,8 +1,9 @@
 {
   "name": "hanwin-apikit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "restful toolkits for hanwintech",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc"
@@ -13,6 +14,10 @@
     "type": "git",
     "url": "git://github.com/invader41/hanwin-apikit.git"
   },
+  "files": [
+    "index.js",
+    "*.d.ts"
+  ],
   "dependencies": {},
   "devDependencies": {}
 }
