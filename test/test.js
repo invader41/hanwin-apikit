@@ -15,8 +15,9 @@ import {
  */
 export class ApiProvider {
     static token(username, password) {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded')
+        let headers = {
+            'content-type': 'application/x-www-form-urlencoded'
+        }
 
         let data = new URLSearchParams();
         data.append('grant_type', 'app_login');
@@ -40,7 +41,7 @@ let newGuid = function () {
 }
 
 let apiClient = new HanwinApiClient({
-    baseUrl: 'http://service.hanwintech.com:9002',
+    baseUrl: '',
     onBusinessError: model => {
         alert("这是一个业务错误！json:" + model)
     },

@@ -17,6 +17,7 @@ export declare interface IHanwinOAuthApiClientConfig
 }
 
 export declare interface IHanwinApiClientConfig {
+  mode: string;
   baseUrl: string;
   assignDigest: () => string;
   onBusinessError: (model: any) => void;
@@ -28,7 +29,7 @@ export declare interface IHanwinApiClientConfig {
 export declare class HanwinApiRequest {
   url: string;
   urlSearchParams: URLSearchParams;
-  headers: Headers;
+  headers: any;
   body: URLSearchParams | any;
   method: string;
   verifyModel: boolean;

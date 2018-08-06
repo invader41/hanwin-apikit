@@ -1,4 +1,7 @@
 import {
+    URLSearchParams
+} from "./url-search-params-polyfill.js";
+import {
     HanwinApiRequest,
     HanwinApiClient
 } from "./client.js";
@@ -40,8 +43,9 @@ export class HanwinOAuthApiClient extends HanwinApiClient {
     requestToken() {
         let credentials = this.credentialsProvider();
 
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded')
+        let headers = {
+            'content-type': 'application/x-www-form-urlencoded'
+        }
 
         let data = new URLSearchParams();
         for (var key in credentials) {
