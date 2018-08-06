@@ -107,7 +107,8 @@ let getUserInfo = function() {
 };
 ```
 
-#集成 OAuth&JWT 验证的客户端
+## 集成 OAuth&JWT 验证的客户端
+
 集成 OAuth&JWT 验证的客户端（client-oauth.js）构造函数：
 
 ```js
