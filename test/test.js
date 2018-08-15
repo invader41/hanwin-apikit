@@ -1,7 +1,6 @@
 import {
     HanwinApiClient,
     HanwinApiRequest,
-    HanwinOAuthApiClient
 } from "../index.js";
 import {
     hex_md5
@@ -49,7 +48,7 @@ let apiClient = new HanwinApiClient({
         console.log(response);
         alert("账号验证出错");
     },
-    assignDigest: () => {
+    commonHeader: () => {
         //指纹身份验证实现
         var timestamp = (Math.round(new Date().getTime() / 1000) + 28800).toString();
         var nonce = newGuid();
@@ -62,35 +61,6 @@ let apiClient = new HanwinApiClient({
     }
 });
 
-let oauthApiClient = new HanwinOAuthApiClient({
-    baseUrl: '',
-    tokenUrl: '/api/Token',
-    credentialsProvider: () => {
-        return {
-            grant_type: 'app_login',
-            username: sessionStorage.getItem('hanwinUsername'),
-            password: sessionStorage.getItem('hanwinPassword')
-        };
-    },
-    onBusinessError: model => {
-        alert("这是一个业务错误！json:" + model)
-    },
-    onUnauthorized: response => {
-        console.log(response);
-        alert("账号验证出错");
-    },
-    assignDigest: () => {
-        //指纹身份验证实现
-        var timestamp = (Math.round(new Date().getTime() / 1000) + 28800).toString();
-        var nonce = newGuid();
-        var signature = hex_md5("sipmch2017" + timestamp + nonce).toUpperCase();
-        return {
-            timestamp,
-            nonce,
-            signature
-        }
-    }
-})
 
 var app = new Vue({
     el: '#app',
@@ -98,8 +68,7 @@ var app = new Vue({
         username: '',
         password: '',
         userInfo: {},
-        apiClient: apiClient,
-        oauthApiClient: oauthApiClient
+        apiClient: apiClient
     },
     methods: {
         doLogin: function () {
@@ -118,23 +87,6 @@ var app = new Vue({
                 .catch(error => {
                     console.log(error);
                 })
-        },
-        doLoginWithOAuth: function () {
-            //单页面应用用sessionStorage/localStorage，其他自行存储凭据
-            sessionStorage.setItem('hanwinUsername', this.username);
-            sessionStorage.setItem('hanwinPassword', this.password);
-            this.oauthApiClient.requestToken().then(() => {
-                sessionStorage.setItem('hanwinUsername', this.username);
-                sessionStorage.setItem('hanwinPassword', this.password);
-            })
-        },
-        getUserInfoWithOAuth: function () {
-            this.oauthApiClient.request(ApiProvider.getUserInfo()).then(model => {
-                    alert(model.data.name);
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-        },
+        }
     }
 })

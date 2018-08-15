@@ -7,7 +7,7 @@ import {
  * config:{
  *   mode 模式默认“browser”，小程序“mp”
  *   baseUrl 服务器地址
- *   assignDigest 摘要/指纹验证方法
+ *   commonHeader 统一http header
  *   onBusinessError 业务错误统一处理函数
  *   onUnauthorized 验证错误统一处理函数
  *   isTokenExp token是否过期函数
@@ -29,7 +29,7 @@ export class HanwinApiClient {
         if (typeof config === 'object') {
             this.baseUrl = config.baseUrl;
             this.mode = config.mode ? config.mode : 'browser';
-            config.assignDigest ? this.assignDigest = config.assignDigest : false;
+            config.commonHeader ? this.commonHeader = config.commonHeader : false;
             config.onBusinessError ? this.onBusinessError = config.onBusinessError : false;
             config.onUnauthorized ? this.onUnauthorized = config.onUnauthorized : false;
             config.isTokenExp ? this.isTokenExp = config.isTokenExp : false;
@@ -84,10 +84,10 @@ export class HanwinApiClient {
 
         hanwinApiRequest.config.headers["Authorization"] = "bearer " + this.token;
         //是否需要摘要认证信息
-        if (this.hasOwnProperty("assignDigest") && typeof this.assignDigest === 'function') {
-            let digestHeaders = this.assignDigest();
-            for (var key in digestHeaders) {
-                hanwinApiRequest.config.headers[key] = digestHeaders[key];
+        if (this.hasOwnProperty("commonHeader") && typeof this.commonHeader === 'function') {
+            let commonHeaders = this.commonHeader();
+            for (var key in commonHeaders) {
+                hanwinApiRequest.config.headers[key] = commonHeaders[key];
             }
         }
 

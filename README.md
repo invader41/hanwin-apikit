@@ -24,7 +24,7 @@ let apiClient = new HanwinApiClient({
     onUnauthorized: response => {
         //401验证错误handler
     },
-    assignDigest: () => {
+    commonHeader: () => {
         //用于加密的http header 验证实现 Sample
         var timestamp = (Math.round(new Date().getTime() / 1000) + 28800).toString();
         var nonce = newGuid();
