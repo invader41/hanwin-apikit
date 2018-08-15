@@ -232,64 +232,64 @@ export class HanwinApiRequest {
     }
 }
 
-/**
- * 集成了Token获取，token过期重试的ApiClient子类
- * config额外参数：{
- *   tokenUrl: token获取地址
- *   credentialsProvider: 提供重试时需要的用户名密码等信息的function
- * }
- * @export
- * @class HanwinOAuthApiClient
- * @extends {HanwinApiClient}
- */
-export class HanwinOAuthApiClient extends HanwinApiClient {
-    constructor(config) {
-        super(config);
+// /**
+//  * 集成了Token获取，token过期重试的ApiClient子类
+//  * config额外参数：{
+//  *   tokenUrl: token获取地址
+//  *   credentialsProvider: 提供重试时需要的用户名密码等信息的function
+//  * }
+//  * @export
+//  * @class HanwinOAuthApiClient
+//  * @extends {HanwinApiClient}
+//  */
+// export class HanwinOAuthApiClient extends HanwinApiClient {
+//     constructor(config) {
+//         super(config);
 
-        this.tokenUrl = config.tokenUrl;
-        this.credentialsProvider = config.credentialsProvider;
+//         this.tokenUrl = config.tokenUrl;
+//         this.credentialsProvider = config.credentialsProvider;
 
-        this.isTokenExp = function (token) {
-            try {
-                //2591990
-                return new JWTToken(token).isExpired(10);
-            } catch (error) {
-                return false;
-            }
-        }
+//         this.isTokenExp = function (token) {
+//             try {
+//                 //2591990
+//                 return new JWTToken(token).isExpired(10);
+//             } catch (error) {
+//                 return false;
+//             }
+//         }
 
-        this.onTokenExp = (request) => {
-            this.token = null;
-            return this.requestToken().then(token => {
-                return this.request(request)
-            })
-        }
-    }
+//         this.onTokenExp = (request) => {
+//             this.token = null;
+//             return this.requestToken().then(token => {
+//                 return this.request(request)
+//             })
+//         }
+//     }
 
-    requestToken() {
-        let credentials = this.credentialsProvider();
+//     requestToken(tokenRequest) {
+//         let credentials = this.credentialsProvider();
 
-        let headers = {
-            'content-type': 'application/x-www-form-urlencoded'
-        }
+//         let headers = {
+//             'content-type': 'application/x-www-form-urlencoded'
+//         }
 
-        let data = new URLSearchParams();
-        for (var key in credentials) {
-            data.append(key, credentials[key]);
-        }
+//         let data = new URLSearchParams();
+//         for (var key in credentials) {
+//             data.append(key, credentials[key]);
+//         }
 
-        let tokenRequest = new HanwinApiRequest(this.tokenUrl).post().data(data).headers(headers).verifyModel(false);
+//         let tokenRequest = new HanwinApiRequest(this.tokenUrl).post().data(data).headers(headers).verifyModel(false);
 
-        return this.request(tokenRequest).then(model => {
-            if (model.hasOwnProperty('access_token')) {
-                this.token = model.access_token;
-                return model;
-            } else {
-                throw new Error("token Error");
-            }
-        });
-    }
-}
+//         return this.request(tokenRequest).then(model => {
+//             if (model.hasOwnProperty('access_token')) {
+//                 this.token = model.access_token;
+//                 return model;
+//             } else {
+//                 throw new Error("token Error");
+//             }
+//         });
+//     }
+// }
 
 export class JWTToken {
     constructor(token) {
