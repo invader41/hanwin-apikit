@@ -1,6 +1,6 @@
 {
   "name": "hanwin-apikit",
-  "version": "1.1.2",
+  "version": "1.1.5",
   "description": "restful toolkits for hanwintech",
   "main": "index.js",
   "types": "index.d.ts",
@@ -15,6 +15,7 @@
     "url": "git://github.com/invader41/hanwin-apikit.git"
   },
   "files": [
+    "/src",
     "index.js",
     "*.d.ts"
   ],

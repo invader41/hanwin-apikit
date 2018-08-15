@@ -27,12 +27,7 @@ export declare interface IHanwinApiClientConfig {
 }
 
 export declare class HanwinApiRequest {
-  url: string;
-  urlSearchParams: URLSearchParams;
-  headers: any;
-  body: URLSearchParams | any;
-  method: string;
-  verifyModel: boolean;
+  config;
   get(): HanwinApiRequest;
   post(): HanwinApiRequest;
   search(urlSearchParams): HanwinApiRequest;
@@ -40,4 +35,13 @@ export declare class HanwinApiRequest {
   data(data): HanwinApiRequest;
   verifyModel(verifyModel): HanwinApiRequest;
   constructor(url: string);
+}
+
+export declare interface HanwinApiRequestConfig{
+  url: string;
+  urlSearchParams: URLSearchParams;
+  headers: any;
+  body: URLSearchParams | any;
+  method: string;
+  verifyModel: boolean;
 }
