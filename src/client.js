@@ -7,6 +7,7 @@ import {
  * config:{
  *   mode 模式默认“browser”，小程序“mp”
  *   baseUrl 服务器地址
+ *   tokenScheme 默认bearer
  *   commonHeader 统一http header
  *   onBusinessError 业务错误统一处理函数
  *   onUnauthorized 验证错误统一处理函数
@@ -23,12 +24,14 @@ export class HanwinApiClient {
         this.tokenLocalStorageKey = 'hanwinToken';
         this.baseUrlLocalStorageKey = 'hanwinBaseUrl';
         this.mode = "browser";
+        this.tokenScheme = "bearer";
         if (typeof config === 'string') {
             this.baseUrl = config;
         };
         if (typeof config === 'object') {
             this.baseUrl = config.baseUrl;
             this.mode = config.mode ? config.mode : 'browser';
+            this.tokenScheme = config.tokenScheme ? config.tokenScheme : 'bearer';
             config.commonHeader ? this.commonHeader = config.commonHeader : false;
             config.onBusinessError ? this.onBusinessError = config.onBusinessError : false;
             config.onUnauthorized ? this.onUnauthorized = config.onUnauthorized : false;
@@ -82,7 +85,7 @@ export class HanwinApiClient {
             });
         }
 
-        hanwinApiRequest.config.headers["Authorization"] = "bearer " + this.token;
+        hanwinApiRequest.config.headers["Authorization"] = this.tokenScheme + " " + this.token;
         //是否需要摘要认证信息
         if (this.hasOwnProperty("commonHeader") && typeof this.commonHeader === 'function') {
             let commonHeaders = this.commonHeader();

@@ -19,6 +19,7 @@ export declare class HanwinApiClient {
 export declare interface IHanwinApiClientConfig {
   mode?: string;
   baseUrl: string;
+  tokenScheme?: string;
   commonHeader?: () => any;
   onBusinessError?: (model: any) => void;
   onUnauthorized?: (response: Response) => void;

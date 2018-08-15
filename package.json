@@ -1,6 +1,6 @@
 {
   "name": "hanwin-apikit",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "restful toolkits for hanwintech",
   "main": "index.js",
   "types": "index.d.ts",
