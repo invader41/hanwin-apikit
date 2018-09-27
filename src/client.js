@@ -19,36 +19,43 @@ import {
  * @class HanwinApiClient
  */
 export class HanwinApiClient {
-
     constructor(config) {
-        this.tokenLocalStorageKey = 'hanwinToken';
-        this.baseUrlLocalStorageKey = 'hanwinBaseUrl';
+        this.tokenLocalStorageKey = "hanwinToken";
+        this.baseUrlLocalStorageKey = "hanwinBaseUrl";
         this.mode = "browser";
         this.tokenScheme = "bearer";
-        if (typeof config === 'string') {
+        if (typeof config === "string") {
             this.baseUrl = config;
-        };
-        if (typeof config === 'object') {
+        }
+        if (typeof config === "object") {
             this.baseUrl = config.baseUrl;
-            this.mode = config.mode ? config.mode : 'browser';
-            this.tokenScheme = config.tokenScheme ? config.tokenScheme : 'bearer';
-            config.commonHeader ? this.commonHeader = config.commonHeader : false;
-            config.onBusinessError ? this.onBusinessError = config.onBusinessError : false;
-            config.onUnauthorized ? this.onUnauthorized = config.onUnauthorized : false;
-            config.isTokenExp ? this.isTokenExp = config.isTokenExp : false;
-            config.onTokenExp ? this.onTokenExp = config.onTokenExp : false;
+            this.mode = config.mode ? config.mode : "browser";
+            this.tokenScheme = config.tokenScheme ? config.tokenScheme : "bearer";
+            config.commonHeader ? (this.commonHeader = config.commonHeader) : false;
+            config.onBusinessError ?
+                (this.onBusinessError = config.onBusinessError) :
+                false;
+            config.onUnauthorized ?
+                (this.onUnauthorized = config.onUnauthorized) :
+                false;
+            config.isTokenExp ? (this.isTokenExp = config.isTokenExp) : false;
+            config.onTokenExp ? (this.onTokenExp = config.onTokenExp) : false;
         }
     }
 
     get token() {
-        if (typeof wx === 'object') {
-            return wx.getStorageSync(this.tokenLocalStorageKey) ? wx.getStorageSync(this.tokenLocalStorageKey) : '';
+        if (typeof wx === "object") {
+            return wx.getStorageSync(this.tokenLocalStorageKey) ?
+                wx.getStorageSync(this.tokenLocalStorageKey) :
+                "";
         } else {
-            return localStorage.getItem(this.tokenLocalStorageKey) ? localStorage.getItem(this.tokenLocalStorageKey) : '';
+            return localStorage.getItem(this.tokenLocalStorageKey) ?
+                localStorage.getItem(this.tokenLocalStorageKey) :
+                "";
         }
     }
     set token(v) {
-        if (typeof wx === 'object') {
+        if (typeof wx === "object") {
             wx.setStorageSync(this.tokenLocalStorageKey, v);
         } else {
             localStorage.setItem(this.tokenLocalStorageKey, v);
@@ -56,14 +63,18 @@ export class HanwinApiClient {
     }
 
     get baseUrl() {
-        if (typeof wx === 'object') {
-            return wx.getStorageSync(this.baseUrlLocalStorageKey) ? wx.getStorageSync(this.baseUrlLocalStorageKey) : '';
+        if (typeof wx === "object") {
+            return wx.getStorageSync(this.baseUrlLocalStorageKey) ?
+                wx.getStorageSync(this.baseUrlLocalStorageKey) :
+                "";
         } else {
-            return localStorage.getItem(this.baseUrlLocalStorageKey) ? localStorage.getItem(this.baseUrlLocalStorageKey) : '';
+            return localStorage.getItem(this.baseUrlLocalStorageKey) ?
+                localStorage.getItem(this.baseUrlLocalStorageKey) :
+                "";
         }
     }
     set baseUrl(v) {
-        if (typeof wx === 'object') {
+        if (typeof wx === "object") {
             wx.setStorageSync(this.baseUrlLocalStorageKey, v);
         } else {
             localStorage.setItem(this.baseUrlLocalStorageKey, v);
@@ -85,9 +96,13 @@ export class HanwinApiClient {
             });
         }
 
-        hanwinApiRequest.config.headers["Authorization"] = this.tokenScheme + " " + this.token;
+        hanwinApiRequest.config.headers["Authorization"] =
+            this.tokenScheme + " " + this.token;
         //是否需要摘要认证信息
-        if (this.hasOwnProperty("commonHeader") && typeof this.commonHeader === 'function') {
+        if (
+            this.hasOwnProperty("commonHeader") &&
+            typeof this.commonHeader === "function"
+        ) {
             let commonHeaders = this.commonHeader();
             for (var key in commonHeaders) {
                 hanwinApiRequest.config.headers[key] = commonHeaders[key];
@@ -95,9 +110,16 @@ export class HanwinApiClient {
         }
 
         //token过期处理
-        if (this.token && this.hasOwnProperty("isTokenExp") && typeof this.isTokenExp === 'function') {
+        if (
+            this.token &&
+            this.hasOwnProperty("isTokenExp") &&
+            typeof this.isTokenExp === "function"
+        ) {
             if (this.isTokenExp(this.token)) {
-                if (this.hasOwnProperty("onTokenExp") && typeof this.onTokenExp === 'function') {
+                if (
+                    this.hasOwnProperty("onTokenExp") &&
+                    typeof this.onTokenExp === "function"
+                ) {
                     return this.onTokenExp(hanwinApiRequest);
                 }
             }
@@ -117,10 +139,17 @@ export class HanwinApiClient {
         }
 
         return request.then(model => {
-            if (model.hasOwnProperty('success') && model.hasOwnProperty('data') && model.hasOwnProperty('reason')) {
-                if (!model['success']) {
+            if (
+                model.hasOwnProperty("success") &&
+                model.hasOwnProperty("data") &&
+                model.hasOwnProperty("reason")
+            ) {
+                if (!model["success"]) {
                     //发生业务错误时的统一处理方法
-                    if (this.hasOwnProperty("onBusinessError") && typeof this.onBusinessError === 'function') {
+                    if (
+                        this.hasOwnProperty("onBusinessError") &&
+                        typeof this.onBusinessError === "function"
+                    ) {
                         this.onBusinessError(model);
                     }
                 }
@@ -140,13 +169,19 @@ export class HanwinApiClient {
             method: hanwinApiRequest.config.method,
             headers: hanwinApiRequest.config.headers,
             body: hanwinApiRequest.config.body,
-            mode: 'cors'
+            mode: "cors"
         };
-        let request = new Request(this.baseUrl + hanwinApiRequest.config.url, requestConfig);
+        let request = new Request(
+            this.baseUrl + hanwinApiRequest.config.url,
+            requestConfig
+        );
         return fetch(request).then(response => {
             if (response.status === 401) {
                 //发生身份验证错误时的统一处理方法
-                if (this.hasOwnProperty("onUnauthorized") && typeof this.onUnauthorized === 'function') {
+                if (
+                    this.hasOwnProperty("onUnauthorized") &&
+                    typeof this.onUnauthorized === "function"
+                ) {
                     this.onUnauthorized(response);
                 }
                 throw new Error("Unauthorized");
@@ -157,7 +192,10 @@ export class HanwinApiClient {
 
     _mpRequest(hanwinApiRequest) {
         let url = this.baseUrl + hanwinApiRequest.config.url;
-        let data = hanwinApiRequest.config.body instanceof URLSearchParams ? hanwinApiRequest.config.body.toString() : hanwinApiRequest.config.body;
+        let data =
+            hanwinApiRequest.config.body instanceof URLSearchParams ?
+            hanwinApiRequest.config.body.toString() :
+            hanwinApiRequest.config.body;
         let promise = new Promise((resolve, reject) => {
             wx.request({
                 url: url,
@@ -170,16 +208,19 @@ export class HanwinApiClient {
                 error: function (error) {
                     reject(error);
                 }
-            })
+            });
         });
         return promise.then(response => {
             if (response.statusCode === 401) {
                 //发生身份验证错误时的统一处理方法
-                if (this.hasOwnProperty("onUnauthorized") && typeof this.onUnauthorized === 'function') {
+                if (
+                    this.hasOwnProperty("onUnauthorized") &&
+                    typeof this.onUnauthorized === "function"
+                ) {
                     this.onUnauthorized(response);
                 }
                 throw new Error("Unauthorized");
-            };
+            }
             return response.data;
         });
     }
@@ -213,9 +254,7 @@ export class HanwinApiRequest {
     }
 
     search(urlSearchParams) {
-        if (urlSearchParams instanceof URLSearchParams && urlSearchParams.keys > 0) {
-            this.config.url = this.config.url + '?' + urlSearchParams.toString()
-        };
+        this.config.url = this.config.url + "?" + urlSearchParams.toString();
         return this;
     }
 
@@ -225,7 +264,7 @@ export class HanwinApiRequest {
     }
 
     data(data) {
-        this.config.body = data instanceof URLSearchParams ? data : JSON.stringify(data);
+        this.config.body = JSON.stringify(data);
         return this;
     }
 
@@ -303,8 +342,8 @@ export class JWTToken {
      * 获取载荷信息
      */
     get payload() {
-        const parts = (this.token || '').split('.');
-        if (parts.length !== 3) throw new Error('JWT must have 3 parts');
+        const parts = (this.token || "").split(".");
+        if (parts.length !== 3) throw new Error("JWT must have 3 parts");
 
         const decoded = urlBase64Decode(parts[1]);
         return JSON.parse(decoded);
@@ -317,7 +356,7 @@ export class JWTToken {
      */
     isExpired(offsetSeconds = 0) {
         const decoded = this.payload;
-        if (!decoded.hasOwnProperty('exp')) return null;
+        if (!decoded.hasOwnProperty("exp")) return null;
 
         const date = new Date(0);
         date.setUTCSeconds(decoded.exp);
@@ -327,7 +366,7 @@ export class JWTToken {
 }
 
 function urlBase64Decode(str) {
-    let output = str.replace(/-/g, '+').replace(/_/g, '/');
+    let output = str.replace(/-/g, "+").replace(/_/g, "/");
     switch (output.length % 4) {
         case 0:
             {
@@ -335,18 +374,18 @@ function urlBase64Decode(str) {
             }
         case 2:
             {
-                output += '==';
+                output += "==";
                 break;
             }
         case 3:
             {
-                output += '=';
+                output += "=";
                 break;
             }
         default:
             {
                 throw new Error(
-                    `'atob' failed: The string to be decoded is not correctly encoded.`,
+                    `'atob' failed: The string to be decoded is not correctly encoded.`
                 );
             }
     }
@@ -355,10 +394,10 @@ function urlBase64Decode(str) {
 
 function b64decode(str) {
     const chars =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-    let output = '';
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    let output = "";
 
-    str = String(str).replace(/=+$/, '');
+    str = String(str).replace(/=+$/, "");
 
     for (
         // initialize result and counters
@@ -384,9 +423,9 @@ function b64decode(str) {
 function b64DecodeUnicode(str) {
     return decodeURIComponent(
         Array.prototype.map
-        .call(b64decode(str), (c) => {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        .call(b64decode(str), c => {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
         })
-        .join(''),
+        .join("")
     );
 }
