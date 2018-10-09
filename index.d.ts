@@ -5,17 +5,6 @@ export declare class HanwinApiClient {
   constructor(config: string | IHanwinApiClientConfig);
 }
 
-// export declare class HanwinOAuthApiClient extends HanwinApiClient {
-//   requestToken();
-//   constructor(IHanwinOAuthApiClientConfig);
-// }
-
-// export declare interface IHanwinOAuthApiClientConfig
-//   extends IHanwinApiClientConfig {
-//   tokenUrl: string;
-//   credentialsProvider: () => any;
-// }
-
 export declare interface IHanwinApiClientConfig {
   mode?: string;
   baseUrl: string;
@@ -29,9 +18,9 @@ export declare interface IHanwinApiClientConfig {
 
 export declare class HanwinApiRequest {
   config: IHanwinApiRequestConfig;
-  get(): HanwinApiRequest;
-  post(): HanwinApiRequest;
-  search(urlSearchParams): HanwinApiRequest;
+  get(urlSearchParams?: URLSearchParams): HanwinApiRequest;
+  post(data?): HanwinApiRequest;
+  search(urlSearchParams: URLSearchParams): HanwinApiRequest;
   headers(headers): HanwinApiRequest;
   data(data): HanwinApiRequest;
   verifyModel(verifyModel): HanwinApiRequest;
